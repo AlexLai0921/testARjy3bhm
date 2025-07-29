@@ -39,7 +39,7 @@
       	></a-box>
 	<a-text
 	id="gps1"
-	value=""
+	value="GPS1"
 	look-at="[gps-camera]"
 	gps-new-entity-place="latitude: 24.565639381002104; longitude: 120.8263265109913;"
 	scale="30 30 30"
@@ -54,7 +54,7 @@
       	></a-box>
 	<a-text
 	id="gps2"
-	value=""
+	value="GPS2"
 	look-at="[gps-camera]"
 	gps-new-entity-place="latitude: 24.565753552637098; longitude: 120.8262183947496;"
 	scale="30 30 30"
@@ -66,14 +66,11 @@
 
     <script>
       window.addEventListener('load', () => {
-        const gps1 = document.getElementById('gps1');
-        gps1.addEventListener('gps-entity-place-update-positon', (event) => {
-          gps1.setAttribute('value', gps1.getAttribute('distanceMsg') + ' 距離');
-        });
-
-	const gps2 = document.getElementById('gps1');
-        gps2.addEventListener('gps-entity-place-update-positon', (event) => {
-          gps2.setAttribute('value', gps2.getAttribute('distanceMsg') + ' 距離');
+        const el = document.querySelector('[gps-entity-place]');
+        el.addEventListener('gps-entity-place-update-positon', (event) => {
+          if(event.detail.distance < 100) {
+            el.setAttribute('material','color: black');
+          }
         });
       });
     </script>
