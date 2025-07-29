@@ -17,19 +17,45 @@
       <a-camera gps-new-camera rotation-reader></a-camera>
 
       <!-- 在特定 GPS 座標放置 3D 物件 -->
-      <a-box 
+      	<a-box 
         color="yellow"
         gps-new-entity-place="latitude: 24.567938884232223; longitude: 120.82369880091098;"
         scale="3 3 3"
         position="0 0 0"
-      ></a-box>
+      	></a-box>
+	<a-link
+	title="辦公室"
+	look-at="[gps-camera]"
+	gps-new-entity-place="latitude: 24.567938884232223; longitude: 120.82369880091098;"
+	scale="15 15 15"
+	></a-link>
 
-	    <a-box 
+	    
+	<a-box 
         color="blue"
-        gps-new-entity-place="latitude: 24.56558268438612; longitude: 120.82631790485655;"
+        gps-new-entity-place="latitude: 24.565639381002104; longitude: 120.8263265109913;"
         scale="3 3 3"
         position="0 0 0"
-      ></a-box>
+      	></a-box>
+	<a-link
+	title="宿舍"
+	look-at="[gps-camera]"
+	gps-new-entity-place="latitude: 24.565639381002104; longitude: 120.8263265109913;"
+	scale="15 15 15"
+	></a-link>
+
+	<a-box 
+        color="purple"
+        gps-new-entity-place="latitude: 24.565753552637098; longitude: 120.8262183947496;"
+        scale="3 3 3"
+        position="0 0 0"
+      	></a-box>
+	<a-link
+	title="測試"
+	look-at="[gps-camera]"
+	gps-new-entity-place="latitude: 24.565753552637098; longitude: 120.8262183947496;"
+	scale="15 15 15"
+	></a-link>
 	  
 	  <a-entity material='color: red' geometry='primitive: box' gps-new-entity-place="latitude: 24.56783889910478; longitude: 120.82375170390783" scale="2 2 2"></a-entity>
     </a-scene>
