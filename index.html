@@ -1,73 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>locAR.js 線段範例</title>
-    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ar.js@3.4.4/aframe/build/aframe-ar.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/examples/gps-camera/locar.js"></script>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-    <a-scene
-      vr-mode-ui="enabled: false"
-      embedded
-      arjs="sourceType: webcam; gpsMinAccuracy: 100;"
-    >
-      <a-camera gps-camera rotation-reader></a-camera>
-    </a-scene>
-
-    <script>
-      const scene = document.querySelector("a-scene");
-
-      // 多個 GPS 點
-      const gpsPoints = [
-        { lat: 24.565581, lon: 120.826245 },
-        { lat: 24.565566, lon: 120.826191 },
-        { lat: 24.565583, lon: 120.826363 },
-      ];
-
-      // 在畫面中顯示點
-      gpsPoints.forEach((point) => {
-        locAR.placeAtLocation({
-          latitude: point.lat,
-          longitude: point.lon,
-          element: () => {
-            const el = document.createElement("a-sphere");
-            el.setAttribute("radius", "1");
-            el.setAttribute("color", "red");
-            return el;
-          },
-        });
-      });
-
-      // 當 gps-camera 更新位置時，畫出線段
-      document
-        .querySelector("[gps-camera]")
-        .addEventListener("gps-camera-update-position", function () {
-          if (document.querySelector("#polyline")) return; // 已畫過線就不重畫
-
-          const origin = gpsPoints[0];
-          const positions = [];
-
-          gpsPoints.forEach((p) => {
-            const x = (p.lon - origin.lon) * 100000;
-            const z = (p.lat - origin.lat) * -100000;
-            positions.push(new THREE.Vector3(x, 1, z));
-          });
-
-          const geometry = new THREE.BufferGeometry().setFromPoints(positions);
-          const material = new THREE.LineBasicMaterial({ color: 0x00ff00 });
-          const line = new THREE.Line(geometry, material);
-
-          const entity = document.createElement("a-entity");
-          entity.setAttribute("id", "polyline");
-          entity.setAttribute(
-            "gps-entity-place",
-            `latitude: ${origin.lat}; longitude: ${origin.lon}`
-          );
-          entity.setObject3D("mesh", line);
-          scene.appendChild(entity);
-        });
-    </script>
-  </body>
+<head>
+<title>AR.js A-Frame</title>
+<script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+<script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
+<!-- Assumes AR.js build is in the 'AR.js' directory -->
+<script type='text/javascript' src='../../../../three.js/build/ar-threex-location-only.js'></script>
+<script type='text/javascript' src='../../../build/aframe-ar.js'></script>
+</head>
+<body>
+<!-- 
+This is using a simulated location. If testing on a mobile device, remove the 
+'simulateLatitude' and 'simulateLongitude' properties from 'gps-new-camera' and
+change the 'latitude' and 'longitude' properties to a location around 0.001 
+degrees from your real location.
+-->
+<a-scene vr-mode-ui='enabled: false' arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false' renderer='antialias: true; alpha: true'>
+	<a-camera gps-new-camera='gpsMinDistance: 5; simulateLatitude: 51.049; simulateLongitude: -0.723'></a-camera>
+<!-- 
+Use the third-party A-Frame 'look-at' component to make the text look at the
+camera.
+-->
+	<a-text value='This will always face the user.' look-at='[gps-new-camera]' gps-new-entity-place="latitude: 51.05; longitude: -0.723" scale="50 50 50"></a-text>
+</a-scene>
+	
+</body>
 </html>
